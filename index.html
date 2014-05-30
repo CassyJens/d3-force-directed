@@ -72,13 +72,20 @@ d3.json("graph.json", function(error, graph) {
           .attr("r", radius + 5)
           .style("fill", "white");
 
+    node.append("clipPath")
+        .attr("id", "clipCircle")
+        .append('circle')
+        .attr('r', radius)
+        .attr('cx', 0)
+        .attr('cy', 0);
+
     node.append("image")
-          //.attr("xlink:href", "https://github.com/favicon.ico")
           .attr("xlink:href", "https://farm4.staticflickr.com/3820/13233336223_728faecc43_q_d.jpg")
           .attr("x", -radius)
           .attr("y", -radius)
           .attr("width", diameter)
-          .attr("height", diameter);
+          .attr("height", diameter)
+          .attr("clip-path", "url(#clipCircle)");
 
     node.append("text")
         .attr("dy", radius + 10)
