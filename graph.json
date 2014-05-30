@@ -1,26 +1,29 @@
 {
   "nodes":[
-    {"name":"Myriel","group":1},
-    {"name":"Napoleon","group":1},
-    {"name":"Mlle.Baptistine","group":1},
-    {"name":"Mme.Magloire","group":1},
-    {"name":"CountessdeLo","group":1},
-    {"name":"Geborand","group":1},
-    {"name":"Champtercier","group":1},
-    {"name":"Cravatte","group":1},
+    {"name":"Radius","group":1},
+    {"name":"Basil Thai","group":1},
+    {"name":"Brainwash","group":1},
+    {"name":"Sandwhich Board","group":1},
+    {"name":"Citgo","group":1},
+    {"name":"Subway","group":1},
+    {"name":"Burger King","group":1},
+    {"name":"Don Ramon","group":1},
     {"name":"Count","group":1},
-    {"name":"OldMan","group":1}
+    {"name":"OldMan","group":1},
+    {"name":"McDonald's","group":1},
+    {"name":"Burger King","group":1}
   ],
   "links":[
     {"source":1,"target":0,"value":1},
     {"source":2,"target":0,"value":8},
     {"source":3,"target":0,"value":10},
-    {"source":3,"target":2,"value":6},
-    {"source":4,"target":0,"value":1},
+    {"source":4,"target":0,"value":6},
     {"source":5,"target":0,"value":1},
-    {"source":6,"target":0,"value":1},
-    {"source":7,"target":0,"value":1},
-    {"source":8,"target":0,"value":2},
-    {"source":9,"target":0,"value":1}
+    {"source":6,"target":5,"value":1},
+    {"source":7,"target":5,"value":1},
+    {"source":8,"target":5,"value":1},
+    {"source":9,"target":5,"value":2},
+    {"source":10,"target":8,"value":2},
+    {"source":11,"target":8,"value":2}
   ]
 }

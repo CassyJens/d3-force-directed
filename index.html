@@ -3,12 +3,23 @@
 <style>
 
 .link {
-  stroke: #ccc;
+  stroke: #BBB;
+  stroke-width: 1.5px;
+}
+
+.node circle {
+  fill: #ddd;
+}
+
+.node.active circle {
+    stroke: blue;
 }
 
 .node text {
   pointer-events: none;
-  font: 10px sans-serif;
+  font-size: 10px;
+  font-family: “Century Gothic”, CenturyGothic, AppleGothic, sans-serif;
+  font-weight: light;
 }
 
 </style>
@@ -16,56 +27,94 @@
 <script src="http://d3js.org/d3.v3.min.js"></script>
 <script>
 
+// Initialize size of viewport
 var width = 960,
-    height = 500
+    height = 500,
+    diameter = 50,
+    radius = diameter / 2,
+    linkDistance = diameter * 2;
+
+var force = d3.layout.force()
+    .size([width, height])
+    .charge(-1000)
+    .linkDistance(linkDistance)
+    .on("tick", tick);
+
+var drag = force.drag()
+    .on("dragstart", dragstart);
 
 var svg = d3.select("body").append("svg")
     .attr("width", width)
     .attr("height", height);
 
-var force = d3.layout.force()
-    .gravity(0)
-    .distance(100)
-    .charge(0)
-    .size([width, height]);
+var link = svg.selectAll(".link"),
+    node = svg.selectAll(".node");
 
-d3.json("./graph.json", function(error, json) {
-  force
-      .nodes(json.nodes)
-      .links(json.links)
-      .start();
+// draw the graph
+d3.json("graph.json", function(error, graph) {
+    force
+        .nodes(graph.nodes)
+        .links(graph.links)
+        .start();
 
-  var link = svg.selectAll(".link")
-      .data(json.links)
-    .enter().append("line")
-      .attr("class", "link");
+    link = link.data(graph.links)
+        .enter().append("line")
+        .attr("class", "link");
 
-  var node = svg.selectAll(".node")
-      .data(json.nodes)
-    .enter().append("g")
-      .attr("class", "node")
-      .call(force.drag);
+    node = node.data(graph.nodes)
+        .enter().append("g")
+            .attr("class", "node")
+            .on("dblclick", dblclick)
+            .on("click", setActive)
+            .call(drag);
 
-  node.append("image")
-      .attr("xlink:href", "https://github.com/favicon.ico")
-      .attr("x", -10)
-      .attr("y", -10)
-      .attr("width", 20)
-      .attr("height", 20);
+    node.append("circle")
+          .attr("r", radius + 5)
+          .style("fill", "white");
 
-  node.append("text")
-      .attr("dx", 12)
-      .attr("dy", ".35em")
-      .text(function(d) { return d.name });
+    node.append("image")
+          //.attr("xlink:href", "https://github.com/favicon.ico")
+          .attr("xlink:href", "https://farm4.staticflickr.com/3820/13233336223_728faecc43_q_d.jpg")
+          .attr("x", -radius)
+          .attr("y", -radius)
+          .attr("width", diameter)
+          .attr("height", diameter);
 
-  force.on("tick", function() {
+    node.append("text")
+        .attr("dy", radius + 10)
+        .attr("text-anchor", "middle")
+        .text(function(d) { return d.name });
+
+});
+
+function tick() {
     link.attr("x1", function(d) { return d.source.x; })
         .attr("y1", function(d) { return d.source.y; })
         .attr("x2", function(d) { return d.target.x; })
         .attr("y2", function(d) { return d.target.y; });
 
     node.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
-  });
-});
+}
+
+function center(node) {
+    node.attr("transform", function(d) { return "translate(" + width / 2 + "," + height / 2 + ")"; });
+}
+
+function dblclick(d) {
+    d3.select(this).classed("fixed", d.fixed = false);
+}
+
+// Make the Current Graph active
+// Position it at center of window
+function setActive(d) {
+    d3.selectAll('.active').classed("active", false);
+    d3.select(this).classed("active", true);
+    // d3.select(this).classed("fixed", true);
+    //center(d3.select(this));
+}
+
+function dragstart(d) {
+    d3.select(this).classed("fixed", d.fixed = true);
+}
 
 </script>
