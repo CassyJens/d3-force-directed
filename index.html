@@ -80,12 +80,12 @@ d3.json("graph.json", function(error, graph) {
         .attr('cy', 0);
 
     node.append("image")
-          .attr("xlink:href", "https://farm4.staticflickr.com/3820/13233336223_728faecc43_q_d.jpg")
-          .attr("x", -radius)
-          .attr("y", -radius)
-          .attr("width", diameter)
-          .attr("height", diameter)
-          .attr("clip-path", "url(#clipCircle)");
+        .attr("xlink:href", function(d) { return d.imgurl })
+        .attr("x", -radius)
+        .attr("y", -radius)
+        .attr("width", diameter)
+        .attr("height", diameter)
+        .attr("clip-path", "url(#clipCircle)");
 
     node.append("text")
         .attr("dy", radius + 10)
@@ -100,7 +100,7 @@ function tick() {
         .attr("x2", function(d) { return d.target.x; })
         .attr("y2", function(d) { return d.target.y; });
 
-    node.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+    node.attr("transform", function(d) { return "translate(" + Math.min(width - 15, d.x) + "," + Math.min(height - 15, d.y) + ")"; });
 }
 
 function center(node) {
