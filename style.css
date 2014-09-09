@@ -1,0 +1,19 @@
+.link {
+    stroke: #BBB;
+    stroke-width: 1.5px;
+}
+
+.node circle {
+    fill: #ddd;
+}
+
+.node.active circle {
+    stroke: blue;
+}
+
+.node text {
+    pointer-events: none;
+    font-size: 10px;
+    font-family: “Century Gothic”, CenturyGothic, AppleGothic, sans-serif;
+    font-weight: light;
+}
